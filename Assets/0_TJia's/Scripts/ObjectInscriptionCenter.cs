@@ -11,8 +11,15 @@ public class ObjectInscriptionCenter : MonoBehaviour
     public bool AutoSet = false;
 
     #region Objects
+    [Tooltip("MainCamera")]
+    [SerializeField]
+    public Camera MainCamera;
     [Tooltip("BinGroup")]
     public GameObject BinGroup;
+    [Tooltip("TrashGroup")]
+    public Transform TrashGroup;
+    [Tooltip("TrashGroup")]
+    public ParticleSystem WinParticle;
     [Tooltip("AudioSource in GameController")]
     public AudioSource AudioPlayer;
     [Tooltip("Backgrounds")]
@@ -21,7 +28,7 @@ public class ObjectInscriptionCenter : MonoBehaviour
     public List<Animation> TopAnimations;
     [Tooltip("Sounds During Game (Manual initialization)")]
     public List<AudioClip> Sounds;
-    public enum Bins:int
+    public enum Bins : int
     {
         Food = 0,
         Glass = 1,
@@ -53,7 +60,15 @@ public class ObjectInscriptionCenter : MonoBehaviour
 
     private void CheckNull()
     {
+        if (MainCamera == null)
+        {
+            Debug.LogError("Null Object Found, please check the tooltip and set it again");
+        }
         if (BinGroup == null)
+        {
+            Debug.LogError("Null Object Found, please check the tooltip and set it again");
+        }
+        if (TrashGroup == null)
         {
             Debug.LogError("Null Object Found, please check the tooltip and set it again");
         }
@@ -73,13 +88,29 @@ public class ObjectInscriptionCenter : MonoBehaviour
         {
             Debug.LogError("Null Object Found, please check the tooltip and set it again");
         }
+        if (WinParticle == null)
+        {
+            Debug.LogError("Null Object Found, please check the tooltip and set it again");
+        }
     }
 
     private void AutoSetMethods()
     {
+        if (WinParticle == null)
+        {
+            WinParticle = FindObjectOfType<ParticleSystem>();
+        }
+        if (MainCamera == null)
+        {
+            MainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        }
         if (BinGroup == null)
         {
             BinGroup = GameObject.Find("BinGroup");
+        }
+        if (TrashGroup == null)
+        {
+            TrashGroup = GameObject.Find("TrashGroup").transform;
         }
         if (AudioPlayer == null)
         {
@@ -102,6 +133,5 @@ public class ObjectInscriptionCenter : MonoBehaviour
     void Awake()
     {
         mSelf = this;
-        //mSelf.enabled = false;
     }
 }

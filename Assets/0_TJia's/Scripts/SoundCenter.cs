@@ -11,13 +11,13 @@ public class SoundCenter : MonoBehaviour
     private List<AudioSource> mReservedAudioSourcePool;
     private List<AudioClip> mSounds;
 
-    void Awake()
+    void Start()
     {
         mSounds = ObjectInscriptionCenter.GetInstance().Sounds;
         mAudioSource = ObjectInscriptionCenter.GetInstance().AudioPlayer;
 
         mCommonAudioSourcePool = new List<AudioSource>();
-        mCommonAudioSourcePool.Add(mAudioSource);//gameObject.AddComponent<AudioSource>());
+        mCommonAudioSourcePool.Add(mAudioSource);
 
         mAudioSource.loop = false;
     }
@@ -39,6 +39,12 @@ public class SoundCenter : MonoBehaviour
     {
         PlayReservedSound(mSounds[4], audioSourceMemo);
     }
+
+    internal void PlayWinMusic()
+    {
+        PlayCommonSound(mSounds[7]);
+    }
+
     internal void PlayOpeningSound()
     {
         PlayCommonSound(mSounds[4]);
@@ -50,6 +56,10 @@ public class SoundCenter : MonoBehaviour
     internal void PlayClosingSound()
     {
         PlayCommonSound(mSounds[5]);
+    }
+    internal void PlayRecyclingSound(int clipNum)
+    {
+        PlayCommonSound(mSounds[clipNum]);
     }
     private void PlayReservedSound(AudioClip ac, AudioSource audioSourceMemo)
     {
@@ -82,7 +92,12 @@ public class SoundCenter : MonoBehaviour
         theAudio.Play();
     }
 
-    private AudioSource CreatSound()
+    internal void PlayPickUpSound()
+    {
+        PlayCommonSound(mSounds[6]);
+    }
+
+    internal AudioSource CreatSound()
     {
         AudioSource theAudio = gameObject.AddComponent<AudioSource>();
         theAudio.playOnAwake = false;
